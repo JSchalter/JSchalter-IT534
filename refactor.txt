@@ -1,0 +1,309 @@
+class VariableSort(Exception): 
+    def __init__(self, valid_String, Integer, decimal):
+        self.valid_String = valid_String
+        self.Integer = Integer
+        self.Float = Float
+
+    def validate_String(self, valid_String):
+        try:
+            if str(valid_String):
+                if valid_String.isalpha():
+                    return valid_String
+        except invalid_Error:
+            print("Invalid Data Type!") 
+        
+    def validate_Int(self, Integer):
+        try:
+            if int(Integer):
+                if Integer.isdigit():
+                    return Integer
+        except invalidation_Error:
+            print("Enter A Valid Integer!")
+    def validate_Float(self, decimal):
+        try:
+            if Float(decimal):
+                return decimal
+        except invalidation_Error:
+            print("Enter A Decimal!")
+
+==================================
+
+class VariableSort(Exception): 
+    def __init__(self, valid_String, Integer, decimal):
+        self.valid_String = valid_String
+        self.Integer = Integer
+        self.decimal = decimal
+    def display_Info(self):
+        print("String" + self.valid_String)
+        print("Integer" + self.Integer)
+        print("Float" + self.decimal)
+    
+
+    def validate_String(self, valid_String):
+        try:
+            if str(valid_String):
+                if valid_String.isalpha():
+                    return valid_String
+        except invalid_Error:
+            print("Invalid Data Type!") 
+        
+    def validate_Int(self, Integer):
+        try:
+            if int(Integer):
+                if Integer.isdigit():
+                    return Integer
+        except invalidation_Error:
+            print("")
+    def validate_Float(self, decimal):
+        try:
+            if Float(decimal):
+                return decimal
+        except invalidation_Error:
+            print("")
+=============================
+
+FUNCTIONS
+
+class VariableSort(Exception): 
+    def __init__(self, valid_String, Integer, decimal):
+        self.valid_String = valid_String
+        self.Integer = Integer
+        self.decimal = decimal
+    def display_Info(self):
+        print("String" + self.valid_String)
+        print("Integer" + self.Integer)
+        print("Floating decimal" + self.decimal)
+    
+
+    def validate_String(self, valid_String):
+        try:
+            if str(valid_String):
+                if valid_String.isalpha():
+                    return valid_String
+        except invalid_Error:
+            print("Invalid Data Type!") 
+        
+    def validate_Int(self, Integer):
+        try:
+            if int(Integer):
+                if Integer.isdigit():
+                    return Integer
+        except invalidation_Error:
+            print("")
+    def validate_Float(self, decimal):
+        try:
+            if Float(decimal):
+                return decimal
+        except invalidation_Error:
+            print("")
+
+    =============================
+from VariableSort import VariableSort
+""" Create a three variable with list as values"""
+
+def get_string():
+    """ Create the a method to create a string variable to vaildate""" 
+    string = input("Enter Name:")
+
+    string_ok = False
+
+    while not string_ok:
+        """ Create an instance to sort the variables"""
+        x = VariableSort("", "", "")
+
+        string_ok = x.Validate_string(string)
+
+        if not string_ok:
+            string = input("Please enter name again: ")
+            string_ok = x.Validate_string(string)
+    return string_ok
+
+def get_int():
+    """ Create a method to create a interger variable to vaildate""" 
+    number = input("Enter Age:")
+
+    number_ok = False 
+    
+    while not number_ok:
+        """ Create an instance to sort the variables"""
+        x = VariableSort("","","")
+       valid_Integer = x.validate_Int(Integer)
+        if not valid_Integer:
+            Integer = input("Enter A Valid Integer")
+            valid_Integer = x.validate_Int(Integer)
+    return valid_Integer
+
+def get_Float():
+    """ Create a method to create a Floating variable to vaildate""" 
+    Float = input("Enter A Float:") 
+
+    valid_Float = False
+
+    while not valid_Float:
+        """ Create an instance to sort the variables"""
+        x = VariableSort("","","")
+        valid_Float = x.validate_Float(Float)
+        if not valid_Float:
+            Float = input("Enter A Valid Float: ")
+            valid_Float = x.validate_Float(Float)
+    return valid_Float
+
+while True:
+    string_Variable = get_String()
+    integer_Variable = get_Int()
+    Floating_Variable = get_Float()
+ 
+
+    response = input("Would you like to add another record (Y/N)? ")
+    if response == "n":
+        break
+for x in string_Variable:
+    print(f"List of Strings:{string_Variable}")
+    break
+for y in integer_Variable:
+    print(f"List of Integers: {integer_Variable}")
+    break
+for z in Floating_Variable:
+    print(f"List of Floats{Floating_Variable}")
+    break
+
+
+=======================================
+
+from VariableSort import VariableSort
+def get_String():
+    string = input("Enter A String:")
+
+    valid_String = False
+
+    while not valid_String:
+        x = VariableSort("", "", "")
+
+        valid_String = x.validate_String(string)
+
+        if not valid_String:
+            string = input("Enter A Valid String: ")
+            valid_String = x.validate_String(string)
+    return valid_String
+
+def get_Int():
+    Integer = input("Enter An Integer:")
+
+    valid_Integer = False 
+    
+    while not valid_Integer:
+        x = VariableSort("","","")
+        valid_Integer = x.validate_Int(Integer)
+        if not valid_Integer:
+            Integer = input("Enter A Valid String: ")
+            valid_Integer = x.validate_Int(Integer)
+    return valid_Integer
+
+def get_Float():
+    Float = input("Enter A Float:") 
+
+    valid_Float = False
+
+    while not valid_Float:
+        x = VariableSort("","","")
+        valid_Float = x.validate_Int(Float)
+        if not valid_Float:
+            Float = input("Enter A Valid Float: ")
+            valid_Float = x.validate_Float(Integer)
+    return valid_Float
+
+=============================================
+
+MAIN Function
+
+from Classes.VariableSort import VariableSort
+def get_String():
+    string = input("Enter A String:")
+
+    valid_String = False
+
+    while not valid_String:
+        x = VariableSort("", "", "")
+
+        valid_String = x.validate_String(string)
+
+        if not valid_String:
+            string = input("Enter A Valid String")
+            valid_String = x.validate_String(string)
+    return valid_String
+
+print(get_String())
+
+======================================
+
+from Classes.VariableSort import VariableSort
+from Functions.Function import Function
+
+string = []
+Integer = []
+Float = []
+'''
+def get_String():
+    string = input("Enter A String:")
+
+    valid_String = False
+
+    while not valid_String:
+        x = VariableSort("", "", "")
+
+        valid_String = x.validate_String(string)
+
+        if not valid_String:
+            string = input("Enter A Valid String: ")
+            valid_String = x.validate_String(string)
+    return valid_String
+
+def get_Int():
+    Integer = input("Enter An Integer:")
+
+    valid_Integer = False 
+    
+    while not valid_Integer:
+        x = VariableSort("","","")
+        valid_Integer = x.validate_Int(Integer)
+        if not valid_Integer:
+            Integer = input("Enter A Valid Integer:")
+            valid_Integer = x.validate_Int(Integer)
+    return valid_Integer
+
+def get_Float():
+    Float = input("Enter A Float:") 
+
+    valid_Float = False
+
+    while not valid_Float:
+        x = VariableSort("","","")
+        valid_Float = x.validate_Float(Float)
+        if not valid_Float:
+            Float = input("Enter A Valid Float: ")
+            valid_Float = x.validate_Float(Float)
+    return valid_Float
+'''
+while True:
+    string_Variable = get_String()
+    string.append(string_Variable)
+    integer_Variable = get_Int()
+    Integer.append(integer_Variable)
+    Floating_Variable = get_Float()
+    Float.append(Floating_Variable)
+
+    response = input("Would you like to add another record (Y/N)? ")
+    if response == "n":
+        break
+for x in string:
+    print(f"List of Strings:{string}")
+    break
+for y in Integer:
+    print(f"List of Integers: {Integer}")
+    break
+for z in Floating_Variable:
+    print(f"List of Floats: {Float}")
+    break
+
+
+
