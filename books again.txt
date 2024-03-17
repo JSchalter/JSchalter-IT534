@@ -1,0 +1,352 @@
+This is my python project, please fix any errors and make sure that the project is entirely functional:
+
+books.db:
+
+main.py:
+
+from tkinter import Tk
+from book import BookApp
+from gui.gui import BookApp
+
+def main():
+    """Entry point for the application."""
+    root = Tk()
+    root.title('Books Database')
+    root.geometry("1000x500")
+    app = BookApp(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
+
+
+database/
+
+database.py:
+
+
+import sqlite3
+
+class Database:
+    """Class to handle database operations."""
+
+    def __init__(self, db_name='Books.db'):
+        """Initialize Database instance."""
+        self.db_name = db_name
+
+    def connect(self):
+        """Connect to the SQLite database."""
+        return sqlite3.connect(self.db_name)
+
+    def close(self, conn):
+        """Close the database connection."""
+        conn.close()
+
+    def execute_query(self, query, parameters=None):
+        """
+        Execute SQL query on the database.
+
+        Args:
+            query (str): SQL query string.
+            parameters (tuple): Parameters to be substituted into the query.
+
+        Returns:
+            cursor: Cursor object for fetching results.
+        """
+        conn = self.connect()
+        cursor = conn.cursor()
+        if parameters:
+            cursor.execute(query, parameters)
+        else:
+            cursor.execute(query)
+        conn.commit()
+        return cursor
+
+    def fetch_all(self, query, parameters=None):
+        """
+        Fetch all records from the database.
+
+        Args:
+            query (str): SQL query string.
+            parameters (tuple): Parameters to be substituted into the query.
+
+        Returns:
+            list: List of tuples containing fetched records.
+        """
+        cursor = self.execute_query(query, parameters)
+        records = cursor.fetchall()
+        self.close(cursor.connection)
+        return records
+
+__init__.py
+
+book/
+
+__init__.py:
+
+book.py:
+
+from tkinter import Toplevel, Label, Button, Entry, END
+from tkinter import messagebox
+from database import Database
+
+class BookApp:
+    """Class representing the Book application."""
+
+    def __init__(self, root):
+        """Initialize BookApp instance."""
+        self.root = root
+        self.db = Database()
+        self.create_main_window()
+
+    def create_main_window(self):
+        """Create the main window of the application."""
+        # Widgets and layout code for main window
+        pass
+
+    def submit(self):
+        """Submit a book entry to the database."""
+        # Submit functionality
+        pass
+
+    def show_books(self):
+        """Display all books stored in the database."""
+        # Display books functionality
+        pass
+
+    def go_back(self):
+        """Go back to the main screen."""
+        # Go back functionality
+        pass
+
+    # Other methods like delete_book, edit_book, etc. can be added...
+
+gui/
+
+__init__.py:
+
+gui.py:
+
+from tkinter import Toplevel, Label, Button, Entry, END
+from tkinter import messagebox
+from book import BookApp
+
+def go_back(root, show_books_window):
+    """
+    Go back to the main screen.
+
+    Args:
+        root: The main Tkinter window.
+        show_books_window: The Toplevel window showing book details.
+    """
+    response = messagebox.askyesno("Confirmation", "Are you sure you want to go back to the main screen?")
+    if response:
+        root.deiconify()  # Show the main window
+        show_books_window.destroy()  # Close the "Show Books" window
+
+def delete(book_id):
+    """
+    Delete a book.
+
+    Args:
+        book_id: The ID of the book to delete.
+    """
+    response = messagebox.askyesno("Confirmation", "Are you sure you want to delete this book?")
+    if response == 1:
+        conn = sqlite3.connect('Books.db')
+        c = conn.cursor()
+        c.execute("DELETE from books WHERE book_id = ?", (book_id,))
+        conn.commit()
+        conn.close()
+        show_books()
+
+def show_books(root):
+    """
+    Display all books.
+
+    Args:
+        root: The main Tkinter window.
+    """
+    global show_books_window
+    show_books_window = Toplevel(root)
+    show_books_window.title("Books List")
+    show_books_window.geometry("600x500")
+
+    # Go Back Button
+    go_back_btn = Button(show_books_window, text="Go Back", command=lambda: go_back(root, show_books_window))
+    go_back_btn.grid(row=0, column=0, columnspan=2, sticky="nw")
+
+    conn = sqlite3.connect('Books.db')
+    c = conn.cursor()
+
+    c.execute("SELECT * FROM books")
+    books = c.fetchall()
+
+    # Clear previous results before displaying new ones
+    for widget in show_books_window.winfo_children():
+        if isinstance(widget, Label) or isinstance(widget, Entry) or isinstance(widget, Button):
+            widget.destroy()
+
+    row_num = 1
+    for book in books:
+        title_label = Label(show_books_window, text="Title:")
+        title_label.grid(row=row_num, column=0)
+        title_value = Label(show_books_window, text=book[1])
+        title_value.grid(row=row_num, column=1)
+
+        author_label = Label(show_books_window, text="Author:")
+        author_label.grid(row=row_num+1, column=0)
+        author_value = Label(show_books_window, text=book[2])
+        author_value.grid(row=row_num+1, column=1)
+
+        isbn_label = Label(show_books_window, text="ISBN:")
+        isbn_label.grid(row=row_num+2, column=0)
+        isbn_value = Label(show_books_window, text=book[3])
+        isbn_value.grid(row=row_num+2, column=1)
+
+        copies_purchased_label = Label(show_books_window, text="Copies Purchased:")
+        copies_purchased_label.grid(row=row_num+3, column=0)
+        copies_purchased_value = Label(show_books_window, text=book[4])
+        copies_purchased_value.grid(row=row_num+3, column=1)
+
+        copies_not_checked_out_label = Label(show_books_window, text="Copies Not Checked Out:")
+        copies_not_checked_out_label.grid(row=row_num+4, column=0)
+        copies_not_checked_out_value = Label(show_books_window, text=book[5])
+        copies_not_checked_out_value.grid(row=row_num+4, column=1)
+
+        retail_price_label = Label(show_books_window, text="Retail Price:")
+        retail_price_label.grid(row=row_num+5, column=0)
+        retail_price_value = Label(show_books_window, text=book[6])
+        retail_price_value.grid(row=row_num+5, column=1)
+
+        book_id_label = Label(show_books_window, text="Book ID:")
+        book_id_label.grid(row=row_num+6, column=0)
+        book_id_value = Label(show_books_window, text=book[0])
+        book_id_value.grid(row=row_num+6, column=1)
+
+        edit_btn = Button(show_books_window, text="Edit", command=lambda id=book[0]: edit_book(id))
+        edit_btn.grid(row=row_num+7, column=0)
+
+        delete_btn = Button(show_books_window, text="Delete", command=lambda id=book[0]: delete(id))
+        delete_btn.grid(row=row_num+7, column=1)
+
+        # Insert blank line
+        blank_line = Label(show_books_window, text="")
+        blank_line.grid(row=row_num+8, column=0, columnspan=2)
+
+        row_num += 9
+
+    conn.close()
+
+def edit_book(book_id):
+    """
+    Edit a book.
+
+    Args:
+        book_id: The ID of the book to edit.
+    """
+    conn = sqlite3.connect('Books.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM books WHERE book_id=?", (book_id,))
+    book_record = c.fetchone()
+    conn.close()
+    if book_record:
+        # Creating a new window for editing
+        edit_window = Toplevel(root)
+        edit_window.title("Edit Book")
+        edit_window.geometry("300x200")
+
+        def submit_edit():
+            response = messagebox.askyesno("Confirmation", "Do you want to save the changes?")
+            if response:
+                conn = sqlite3.connect('Books.db')
+                c = conn.cursor()
+                c.execute("UPDATE books SET title=?, author=?, isbn=?, copies_purchased=?, copies_not_checked_out=?, retail_price=? WHERE book_id=?",
+                          (title_edit.get(), author_edit.get(), isbn_edit.get(), copies_purchased_edit.get(), copies_not_checked_out_edit.get(), retail_price_edit.get(), book_id))
+                conn.commit()
+                conn.close()
+                edit_window.destroy()
+                show_books()
+
+        title_edit_label = Label(edit_window, text="Title:")
+        title_edit_label.grid(row=0, column=0)
+        title_edit = Entry(edit_window, width=30)
+        title_edit.grid(row=0, column=1)
+        title_edit.insert(0, book_record[1])
+
+        author_edit_label = Label(edit_window, text="Author:")
+        author_edit_label.grid(row=1, column=0)
+        author_edit = Entry(edit_window, width=30)
+        author_edit.grid(row=1, column=1)
+        author_edit.insert(0, book_record[2])
+
+        isbn_edit_label = Label(edit_window, text="ISBN:")
+        isbn_edit_label.grid(row=2, column=0)
+        isbn_edit = Entry(edit_window, width=30)
+        isbn_edit.grid(row=2, column=1)
+        isbn_edit.insert(0, book_record[3])
+
+        copies_purchased_edit_label = Label(edit_window, text="Copies Purchased:")
+        copies_purchased_edit_label.grid(row=3, column=0)
+        copies_purchased_edit = Entry(edit_window, width=30)
+        copies_purchased_edit.grid(row=3, column=1)
+        copies_purchased_edit.insert(0, book_record[4])
+
+        copies_not_checked_out_edit_label = Label(edit_window, text="Copies Not Checked Out:")
+        copies_not_checked_out_edit_label.grid(row=4, column=0)
+        copies_not_checked_out_edit = Entry(edit_window, width=30)
+        copies_not_checked_out_edit.grid(row=4, column=1)
+        copies_not_checked_out_edit.insert(0, book_record[5])
+
+        retail_price_edit_label = Label(edit_window, text="Retail Price:")
+        retail_price_edit_label.grid(row=5, column=0)
+        retail_price_edit = Entry(edit_window, width=30)
+        retail_price_edit.grid(row=5, column=1)
+        retail_price_edit.insert(0, book_record[6])
+
+        submit_edit_btn = Button(edit_window, text="Submit", command=submit_edit)
+        submit_edit_btn.grid(row=6, column=0, columnspan=2)
+
+    else:
+        messagebox.showerror("Error", "Book ID not found")
+
+validation/
+
+__init__.py:
+
+validation.py:
+
+from tkinter import messagebox
+
+def validate_author(author):
+    """
+    Validate author name.
+
+    Args:
+        author (str): Author name to be validated.
+
+    Returns:
+        bool: True if author name is valid, False otherwise.
+    """
+    if not author.replace(" ", "").isalpha():
+        messagebox.showerror("Error", "Author name must contain letters only")
+        return False
+    return True
+
+def validate_isbn(isbn):
+    """
+    Validate ISBN.
+
+    Args:
+        isbn (str): ISBN to be validated.
+
+    Returns:
+        bool: True if ISBN is valid, False otherwise.
+    """
+    if not isbn.isdigit():
+        messagebox.showerror("Error", "ISBN must contain numbers only")
+        return False
+    return True
+
+# Other validation functions can be similarly defined...
+

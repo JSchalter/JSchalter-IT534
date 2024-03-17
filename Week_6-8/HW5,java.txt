@@ -1,0 +1,37 @@
+import java.util.*;
+
+public class Homework5 {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        // Task 1: Rectangle Area
+        double length = getInput("Enter rectangle length: ");
+        double width = getInput("Enter rectangle width: ");
+        double area = calculateArea(length, width);
+        displayRectangleData(length, width, area);
+
+        // Task 2: Conversion Program
+        double distance;
+        do {
+            distance = getInput("Enter distance in meters: ");
+            if (distance < 0) {
+                System.out.println("Distance cannot be negative. Please enter a valid distance.");
+            } else {
+                showConversionMenu(distance);
+            }
+        } while (distance >= 0);
+
+        // Task 3: isPrime Method
+        int number = getInput("Enter a number (1-100) to check for primality: ");
+        if (isPrime(number)) {
+            System.out.println(number + " is a prime number");
+        } else {
+            System.out.println(number + " is not a prime number");
+        }
+
+        scan.close();
+    }
+
+    }
+}
