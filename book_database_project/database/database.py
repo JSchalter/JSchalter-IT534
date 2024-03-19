@@ -1,3 +1,5 @@
+# database.py
+
 import sqlite3
 
 class Database:
@@ -6,6 +8,7 @@ class Database:
     def __init__(self, db_name='Books.db'):
         """Initialize Database instance."""
         self.db_name = db_name
+        self.create_books_table()  # Call method to create the books table
 
     def connect(self):
         """Connect to the SQLite database."""
@@ -14,6 +17,18 @@ class Database:
     def close(self, conn):
         """Close the database connection."""
         conn.close()
+
+    def create_books_table(self):
+        """Create the books table if it does not exist."""
+        query = """
+        CREATE TABLE IF NOT EXISTS books (
+            id INTEGER PRIMARY KEY,
+            title TEXT,
+            author TEXT,
+            isbn TEXT
+        )
+        """
+        self.execute_query(query)
 
     def execute_query(self, query, parameters=None):
         """
